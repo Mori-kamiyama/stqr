@@ -10,10 +10,17 @@ export default function ScanQRPage() {
   const [scanning, setScanning] = useState(false);
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [supported, setSupported] = useState(true);
   const { addLink } = useLinks();
 
   useEffect(() => {
     if (!scanning) return;
+    if (typeof window === 'undefined' || !('BarcodeDetector' in window)) {
+      setSupported(false);
+      setError('BarcodeDetector not supported in this browser');
+      setScanning(false);
+      return;
+    }
     let stream: MediaStream;
     const start = async () => {
       try {
@@ -109,6 +116,11 @@ export default function ScanQRPage() {
         </div>
 
         {error && <p className="text-red-600 text-center mb-2">{error}</p>}
+        {!supported && (
+          <p className="text-center text-red-600 mb-2">
+            Barcode scanning is not supported in this browser
+          </p>
+        )}
         {result && (
           <p className="text-center text-green-600 font-semibold mb-2 break-all">
             Detected: {result}
@@ -119,7 +131,7 @@ export default function ScanQRPage() {
           <button
             onClick={handleStartScan}
             className="flex items-center justify-center w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out"
-            disabled={scanning}
+            disabled={scanning || !supported}
           >
             <Zap size={20} className="mr-2" />
             {scanning ? 'Scanning...' : 'Start Scan'}
