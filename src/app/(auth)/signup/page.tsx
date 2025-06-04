@@ -12,7 +12,6 @@ export default function SignupPage() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const email = formData.get("email") as string;
-    const password = formData.get("password") as string; // Ignored in mock
     const grade = formData.get("grade") as string;
     const gender = formData.get("gender") as string;
     const dormitory = formData.get("dormitory") as string;

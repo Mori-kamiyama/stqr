@@ -1,6 +1,7 @@
 "use client";
 
-import { ShareNetwork, Link as LinkIcon, Users, Tag } from 'lucide-react'; // Icons for visual cues
+// lucide-react doesn't have a `ShareNetwork` icon; use `Share2` instead
+import { Share2 as ShareNetwork, Link as LinkIcon, Users, Tag } from 'lucide-react';
 
 export default function SharePage() {
   // Mock function for handling share
