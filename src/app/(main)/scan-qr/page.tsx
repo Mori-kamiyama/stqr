@@ -1,20 +1,29 @@
 "use client";
 
-import { Camera, UploadCloud, Zap } from 'lucide-react'; // Icons for visual cues
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
+
+import { useLinks } from '@/contexts/LinkContext';
+
+const QrReader = dynamic(async () => {
+  const mod = await import('react-qr-reader');
+  // module might have named export QrReader or default
+  return mod.QrReader || mod.default;
+}, { ssr: false });
 
 export default function ScanQRPage() {
-  // Mock function for starting scan - in a real app, this would interact with a QR library
-  const handleStartScan = () => {
-    console.log("Attempting to start QR scan...");
-    // Logic to activate camera and QR scanner would go here
-    alert("QR Scanning not implemented yet. Imagine the camera feed starting now!");
-  };
+  const { addLink } = useLinks();
+  const [scanResult, setScanResult] = useState<string | null>(null);
 
-  // Mock function for uploading QR image
-  const handleUploadImage = () => {
-    console.log("Attempting to upload QR image...");
-    // Logic for file input and processing would go here
-    alert("QR Code image upload not implemented yet.");
+  const handleResult = (result: any, error: any) => {
+    if (result?.text) {
+      const text = result.text as string;
+      setScanResult(text);
+      addLink(text);
+    }
+    if (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -22,37 +31,21 @@ export default function ScanQRPage() {
       <h1 className="text-4xl font-bold text-gray-800 mb-8">Scan QR Code</h1>
 
       <div className="w-full bg-white p-8 rounded-lg shadow-xl mb-8">
-        {/* Conceptual Camera View Section */}
-        <div
-          className="aspect-square w-full max-w-md mx-auto bg-gray-900 rounded-lg flex flex-col items-center justify-center mb-6 shadow-inner overflow-hidden"
-          aria-label="QR Code scanner camera feed placeholder"
-        >
-          <Camera size={64} className="text-gray-500 mb-4" />
-          <p className="text-gray-400 text-lg font-medium">Camera feed will appear here.</p>
-          <div className="absolute w-3/4 h-3/4 border-4 border-dashed border-gray-400 opacity-50 rounded-md"></div>
+        <div className="aspect-square w-full max-w-md mx-auto mb-6">
+          <QrReader
+            constraints={{ facingMode: 'environment' }}
+            onResult={handleResult}
+            containerStyle={{ width: '100%', height: '100%' }}
+          />
         </div>
-
+        {scanResult && (
+          <p className="text-center text-green-700 mb-4 break-all">
+            Scanned Link: {scanResult}
+          </p>
+        )}
         <p className="text-center text-gray-600 mb-6 text-sm">
-          Position the QR code clearly within the frame for a quick scan.
+          Point your camera at a QR code.
         </p>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button
-            onClick={handleStartScan}
-            className="flex items-center justify-center w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out"
-          >
-            <Zap size={20} className="mr-2" />
-            Start Scan
-          </button>
-          <button
-            onClick={handleUploadImage}
-            className="flex items-center justify-center w-full sm:w-auto bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out border border-gray-300"
-          >
-            <UploadCloud size={20} className="mr-2" />
-            Upload QR Image
-          </button>
-        </div>
       </div>
 
       <div className="text-center">
