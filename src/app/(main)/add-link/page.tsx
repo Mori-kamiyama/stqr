@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react'; // For back button
 import Link from 'next/link'; // For back button
+import { useLinks } from '@/contexts/LinkContext';
 
 interface FormData {
   title: string;
@@ -15,16 +16,17 @@ interface FormData {
 export default function AddLinkPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const router = useRouter();
-  // const { addLink } = useAuth(); // Assuming you might add 'addLink' to AuthContext later
+  const { addLink } = useLinks();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     const processedData = {
       ...data,
       id: Date.now().toString(), // Simple unique ID
       tags: data.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== ''), // Process tags
+      dueDate: data.dueDate || undefined,
     };
     console.log("Form Data Submitted:", processedData);
-    // addLink(processedData); // If you implement addLink in AuthContext
+    addLink(processedData);
     router.push('/dashboard');
   };
 
