@@ -4,7 +4,7 @@ This repository uses **npm** to manage dependencies.
 
 ## Getting Started
 
-Install dependencies using [npm](https://www.npmjs.com/) and start the development server:
+Install dependencies using [npm](https://www.npmjs.com/) and start the development server. Using `yarn install` may result in a version mismatch error because this project specifies an `npm` package manager in `package.json`. If you prefer `yarn`, first run `corepack enable` so that the correct Yarn version is activated:
 
 ```bash
 npm install
