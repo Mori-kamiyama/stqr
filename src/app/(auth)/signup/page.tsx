@@ -2,16 +2,22 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function SignupPage() {
   const router = useRouter();
+  const { signup } = useAuth();
 
   const handleSignup = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Mock signup logic
-    console.log("Signup attempt");
-    // In a real app, you'd call your auth context signup function here
-    // For now, we'll just redirect to a placeholder dashboard
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string; // Ignored in mock
+    const grade = formData.get("grade") as string;
+    const gender = formData.get("gender") as string;
+    const dormitory = formData.get("dormitory") as string;
+
+    signup({ email, grade, gender, dormitory });
     router.push("/dashboard");
   };
 
