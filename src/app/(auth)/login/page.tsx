@@ -18,41 +18,45 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', backgroundColor: '#f3f4f6' }}>
-      <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>Login</h1>
-        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '300px' }}>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-10 rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold mb-5 text-center">Login</h1>
+        <form onSubmit={handleLogin} className="flex flex-col gap-4 w-72">
           <div>
-            <label htmlFor="email" style={{ display: 'block', marginBottom: '5px', fontWeight: '500' }}>Email</label>
+            <label htmlFor="email" className="block mb-1 font-medium">
+              Email
+            </label>
             <input
               type="email"
               id="email"
               name="email"
               required
-              style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
+              className="w-full p-2.5 border border-gray-300 rounded"
             />
           </div>
           <div>
-            <label htmlFor="password" style={{ display: 'block', marginBottom: '5px', fontWeight: '500' }}>Password</label>
+            <label htmlFor="password" className="block mb-1 font-medium">
+              Password
+            </label>
             <input
               type="password"
               id="password"
               name="password"
               required
-              style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
+              className="w-full p-2.5 border border-gray-300 rounded"
             />
           </div>
           <button
             type="submit"
-            style={{ padding: '10px', backgroundColor: '#3b82f6', color: 'white', borderRadius: '4px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
+            className="py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded font-bold"
           >
             Login
           </button>
         </form>
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+        <div className="mt-5 text-center">
           <p>
-            Don&apos;t have an account?{" "}
-            <Link href="/signup" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: '500' }}>
+            Don&apos;t have an account?{' '}
+            <Link href="/signup" className="text-blue-600 font-medium hover:underline">
               Create Account
             </Link>
           </p>
