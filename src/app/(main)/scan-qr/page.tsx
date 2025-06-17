@@ -33,7 +33,8 @@ export default function ScanQRPage() {
     };
 
     const detector = 'BarcodeDetector' in window
-      ? new (window as any).BarcodeDetector({ formats: ['qr_code'] })
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        new (window as any).BarcodeDetector({ formats: ['qr_code'] })
       : null;
 
     const scan = async () => {
